@@ -1,7 +1,9 @@
-import React from "react";
+import React ,{ useState }from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+
+  
 // Custom validation functions
 const validateName = (name) => {
   if (!name) return "Required";
@@ -25,6 +27,8 @@ const validateAge = (age) => {
 };
 
 const StudentRegistrationForm = () => {
+  const [successMessage, setSuccessMessage] = useState("");
+
   const initialValues = {
     name: "",
     age: "",
@@ -37,9 +41,12 @@ const StudentRegistrationForm = () => {
   });
 
   const handleSubmit = (values, { resetForm }) => {
-    console.log("Form Submitted:", values);
+    console.log("Form Submitted:", values)
+    setSuccessMessage("Registration Successful! ✅");
     resetForm();
   };
+ // Hide the success message after 3 seconds
+ setTimeout(() => setSuccessMessage(""), 3000);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-purple-400 to-blue-500">
@@ -79,10 +86,18 @@ const StudentRegistrationForm = () => {
 
               <button type="submit" disabled={isSubmitting} className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-lg px-6 py-3 text-center me-2 mb-2 w-full">
                 Register
+                
               </button>
+              
             </Form>
           )}
         </Formik>
+         {/* Success Message */}
+         {successMessage && (
+          <div className="mt-4 p-3 text-green-700 bg-green-200 border border-green-400 rounded-lg text-center">
+            {successMessage}
+          </div>
+        )}
       </div>
     </div>
   );
